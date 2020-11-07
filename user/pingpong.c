@@ -11,13 +11,6 @@ main(){
     pipe(p1);   //父进程写，子进程读
     pipe(p2);   //父进程读，子进程写
 
-    //close(p1[0]);
-    //父进程写
-    if(write(p1[1],buf,sizeof(buf))!=sizeof(buf)){
-            fprintf(2, "parent->son write error!\n");
-            exit();
-        }
-    
     //子进程
     if(fork() == 0){
         
@@ -37,6 +30,13 @@ main(){
         }
         exit();
     }
+    close(p1[0]);
+    //父进程写
+    if(write(p1[1],buf,sizeof(buf))!=sizeof(buf)){
+        fprintf(2, "parent->son write error!\n");
+        exit();
+    }
+    
 
     close(p2[1]);
     //父进程读

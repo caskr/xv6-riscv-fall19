@@ -27,6 +27,7 @@ int main(int argc, char *argv[]){
         i = 0;  
         while (i < MAXARG-1) {
             if (read(0, &buf, 1) <= 0) {
+                //ctrl+d
                 exit();
             }
             if (buf == '\n') {

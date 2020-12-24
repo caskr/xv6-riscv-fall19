@@ -4,8 +4,8 @@
 int
 main(int argc, char *argv[])
 {
-  if(argc!=2){
-    fprintf(2, "it must be 1 argument for sleep\n");
+  if(argc!=2){  //判断参数个数是否合法
+    fprintf(2, "it must be 1 argument for sleep\n");//错误提示
     exit();
   }
   int sleepnum = atoi(argv[1]);

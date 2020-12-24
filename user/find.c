@@ -55,7 +55,7 @@ int
 main(int argc, char *argv[])
 {
   if(argc < 3){
-    fprintf(2, "it must be at least 2 argument for sleep\n");
+    fprintf(2, "it must be at least 2 argument for find\n");
     exit();
   }
   find(argv[1], argv[2]);

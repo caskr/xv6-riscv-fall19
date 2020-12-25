@@ -40,7 +40,7 @@ kinit()
   for(int i = 0; i < NCPU; i++){
     initlock(&kmems[i].lock, "kmem");
   }
-  freerange(end, (void*)PHYSTOP);
+  freerange(end, (void*)PHYSTOP);//分配内存给调用它的cpu
 }
 
 void
@@ -73,7 +73,7 @@ kfree(void *pa)
   int id = cpuid();
   pop_off();
   acquire(&kmems[id].lock);
-  r->next = kmems[id].freelist;
+  r->next = kmems[id].freelist;//将pa加入当前cpu的freelist
   kmems[id].freelist = r;
   release(&kmems[id].lock);
 }
@@ -119,16 +119,16 @@ void *
 kalloc(void)
 {
   struct run *r;
-  push_off();
+  push_off();//关闭中断
   int id = cpuid();
-  pop_off();
+  pop_off();//打开中断
   acquire(&kmems[id].lock);
   r = kmems[id].freelist;
   if(r)
     kmems[id].freelist = r->next;
   release(&kmems[id].lock);
   if(!r)  //freelist为空
-    r = steal();
+    r = steal();//窃取内存块
 
   if(r)
     memset((char*)r, 5, PGSIZE); // fill with junk
